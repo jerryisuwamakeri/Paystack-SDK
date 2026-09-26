@@ -63,6 +63,9 @@ type Client struct {
 	// DedicatedVirtualAccounts groups dedicated virtual account API
 	// operations.
 	DedicatedVirtualAccounts *DedicatedVirtualAccountService
+
+	// SplitPayments groups transaction-split API operations.
+	SplitPayments *SplitPaymentService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -103,6 +106,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Subaccounts = &SubaccountService{client: c}
 	c.Settlements = &SettlementService{client: c}
 	c.DedicatedVirtualAccounts = &DedicatedVirtualAccountService{client: c}
+	c.SplitPayments = &SplitPaymentService{client: c}
 
 	return c, nil
 }
