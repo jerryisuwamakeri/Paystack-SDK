@@ -10,4 +10,11 @@ var (
 	ErrMissingEmail     = errors.New("paystack: email is required")
 	ErrInvalidAmount    = errors.New("paystack: amount must be greater than zero")
 	ErrMissingReference = errors.New("paystack: reference is required")
+
+	ErrMissingName          = errors.New("paystack: name is required")
+	ErrMissingAccountNumber = errors.New("paystack: account number is required")
+	ErrMissingBankCode      = errors.New("paystack: bank code is required")
+	ErrMissingRecipientCode = errors.New("paystack: recipient code is required")
+	ErrMissingSource        = errors.New("paystack: source is required")
+	ErrMissingReason        = errors.New("paystack: reason is required")
 )
