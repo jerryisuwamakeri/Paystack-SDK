@@ -39,6 +39,9 @@ type Client struct {
 
 	// Subscriptions groups subscription-related API operations.
 	Subscriptions *SubscriptionService
+
+	// Refunds groups refund-related API operations.
+	Refunds *RefundService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -72,6 +75,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Transfers = &TransferService{client: c}
 	c.Plans = &PlanService{client: c}
 	c.Subscriptions = &SubscriptionService{client: c}
+	c.Refunds = &RefundService{client: c}
 
 	return c, nil
 }
