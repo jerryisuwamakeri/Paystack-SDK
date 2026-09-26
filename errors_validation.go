@@ -25,4 +25,5 @@ var (
 	ErrMissingEmailToken       = errors.New("paystack: email token is required")
 	ErrMissingCustomer         = errors.New("paystack: customer is required")
 	ErrMissingTransaction      = errors.New("paystack: transaction is required")
+	ErrMissingBVN              = errors.New("paystack: bvn is required")
 )
