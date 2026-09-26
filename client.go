@@ -24,6 +24,9 @@ type Client struct {
 
 	// Transactions groups transaction-related API operations.
 	Transactions *TransactionService
+
+	// Customers groups customer-related API operations.
+	Customers *CustomerService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -52,6 +55,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	}
 
 	c.Transactions = &TransactionService{client: c}
+	c.Customers = &CustomerService{client: c}
 
 	return c, nil
 }
