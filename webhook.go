@@ -46,6 +46,15 @@ func VerifyWebhook(secret, signature string, payload []byte) error {
 	return nil
 }
 
+// SignWebhookPayload computes the HMAC-SHA512 signature Paystack would send
+// in the x-paystack-signature header for payload, keyed with secret.
+//
+// This is primarily useful for testing webhook handlers; see the
+// paystacktest package for higher-level test helpers built on top of it.
+func SignWebhookPayload(secret string, payload []byte) string {
+	return computeWebhookSignature(secret, payload)
+}
+
 // computeWebhookSignature returns the lowercase hex-encoded HMAC-SHA512 of
 // payload, keyed with secret, matching Paystack's x-paystack-signature
 // scheme.
