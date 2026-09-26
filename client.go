@@ -53,6 +53,9 @@ type Client struct {
 
 	// Products groups product-related API operations.
 	Products *ProductService
+
+	// Subaccounts groups subaccount-related API operations.
+	Subaccounts *SubaccountService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -90,6 +93,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Miscellaneous = &MiscellaneousService{client: c}
 	c.Verification = &VerificationService{client: c}
 	c.Products = &ProductService{client: c}
+	c.Subaccounts = &SubaccountService{client: c}
 
 	return c, nil
 }
