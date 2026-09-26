@@ -1,0 +1,51 @@
+package paystack
+
+import (
+	"net/http"
+	"time"
+)
+
+const (
+	defaultBaseURL = "https://api.paystack.co"
+	defaultTimeout = 30 * time.Second
+)
+
+// Client is a Paystack API client. Once constructed by NewClient, a
+// Client's configuration is immutable and it is safe for concurrent use by
+// multiple goroutines: callers may share a single Client across an entire
+// application.
+type Client struct {
+	secretKey   string
+	baseURL     string
+	httpClient  *http.Client
+	retryPolicy RetryPolicy
+	observer    TransportObserver
+}
+
+// NewClient constructs a Client using the given secret key and options.
+//
+// The secret key must be supplied through runtime configuration, such as
+// an environment variable:
+//
+//	client, err := paystack.NewClient(os.Getenv("PAYSTACK_SECRET_KEY"))
+//
+// The SDK never persists, logs, or otherwise exposes the secret key.
+func NewClient(secretKey string, opts ...Option) (*Client, error) {
+	if secretKey == "" {
+		return nil, ErrMissingSecretKey
+	}
+
+	c := &Client{
+		secretKey:   secretKey,
+		baseURL:     defaultBaseURL,
+		httpClient:  &http.Client{Timeout: defaultTimeout},
+		retryPolicy: DefaultRetryPolicy(),
+		observer:    noopObserver{},
+	}
+
+	for _, opt := range opts {
+		opt(c)
+	}
+
+	return c, nil
+}
