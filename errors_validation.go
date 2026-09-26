@@ -17,4 +17,6 @@ var (
 	ErrMissingRecipientCode = errors.New("paystack: recipient code is required")
 	ErrMissingSource        = errors.New("paystack: source is required")
 	ErrMissingReason        = errors.New("paystack: reason is required")
+	ErrMissingTransferCode  = errors.New("paystack: transfer code is required")
+	ErrMissingOTP           = errors.New("paystack: otp is required")
 )
