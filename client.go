@@ -50,6 +50,9 @@ type Client struct {
 	// Verification groups identity and account verification API
 	// operations.
 	Verification *VerificationService
+
+	// Products groups product-related API operations.
+	Products *ProductService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -86,6 +89,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Refunds = &RefundService{client: c}
 	c.Miscellaneous = &MiscellaneousService{client: c}
 	c.Verification = &VerificationService{client: c}
+	c.Products = &ProductService{client: c}
 
 	return c, nil
 }
