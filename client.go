@@ -46,6 +46,10 @@ type Client struct {
 	// Miscellaneous groups reference-data API operations such as banks and
 	// countries.
 	Miscellaneous *MiscellaneousService
+
+	// Verification groups identity and account verification API
+	// operations.
+	Verification *VerificationService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -81,6 +85,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Subscriptions = &SubscriptionService{client: c}
 	c.Refunds = &RefundService{client: c}
 	c.Miscellaneous = &MiscellaneousService{client: c}
+	c.Verification = &VerificationService{client: c}
 
 	return c, nil
 }
