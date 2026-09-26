@@ -27,4 +27,7 @@ var (
 	ErrMissingTransaction      = errors.New("paystack: transaction is required")
 	ErrMissingBVN              = errors.New("paystack: bvn is required")
 	ErrMissingProductID        = errors.New("paystack: product id is required")
+	ErrMissingBusinessName     = errors.New("paystack: business name is required")
+	ErrMissingSettlementBank   = errors.New("paystack: settlement bank is required")
+	ErrMissingSubaccountCode   = errors.New("paystack: subaccount code is required")
 )
