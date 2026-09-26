@@ -30,6 +30,9 @@ type Client struct {
 
 	// TransferRecipients groups transfer-recipient API operations.
 	TransferRecipients *TransferRecipientService
+
+	// Transfers groups transfer-related API operations.
+	Transfers *TransferService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -60,6 +63,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Transactions = &TransactionService{client: c}
 	c.Customers = &CustomerService{client: c}
 	c.TransferRecipients = &TransferRecipientService{client: c}
+	c.Transfers = &TransferService{client: c}
 
 	return c, nil
 }
