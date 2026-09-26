@@ -21,6 +21,9 @@ type Client struct {
 	httpClient  *http.Client
 	retryPolicy RetryPolicy
 	observer    TransportObserver
+
+	// Transactions groups transaction-related API operations.
+	Transactions *TransactionService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -47,6 +50,8 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	for _, opt := range opts {
 		opt(c)
 	}
+
+	c.Transactions = &TransactionService{client: c}
 
 	return c, nil
 }
