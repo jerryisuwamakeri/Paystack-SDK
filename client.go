@@ -36,6 +36,9 @@ type Client struct {
 
 	// Plans groups subscription plan API operations.
 	Plans *PlanService
+
+	// Subscriptions groups subscription-related API operations.
+	Subscriptions *SubscriptionService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -68,6 +71,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.TransferRecipients = &TransferRecipientService{client: c}
 	c.Transfers = &TransferService{client: c}
 	c.Plans = &PlanService{client: c}
+	c.Subscriptions = &SubscriptionService{client: c}
 
 	return c, nil
 }
