@@ -1,6 +1,7 @@
 package paystack
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -48,4 +49,17 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	}
 
 	return c, nil
+}
+
+// String implements fmt.Stringer so that fmt verbs such as %v and %+v
+// never print the client's secret key, even when a caller accidentally
+// logs the Client value itself.
+func (c *Client) String() string {
+	return fmt.Sprintf("paystack.Client{baseURL: %q}", c.baseURL)
+}
+
+// GoString implements fmt.GoStringer for the same reason as String, so
+// that %#v also omits the secret key.
+func (c *Client) GoString() string {
+	return c.String()
 }
