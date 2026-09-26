@@ -42,6 +42,10 @@ type Client struct {
 
 	// Refunds groups refund-related API operations.
 	Refunds *RefundService
+
+	// Miscellaneous groups reference-data API operations such as banks and
+	// countries.
+	Miscellaneous *MiscellaneousService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -76,6 +80,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Plans = &PlanService{client: c}
 	c.Subscriptions = &SubscriptionService{client: c}
 	c.Refunds = &RefundService{client: c}
+	c.Miscellaneous = &MiscellaneousService{client: c}
 
 	return c, nil
 }
