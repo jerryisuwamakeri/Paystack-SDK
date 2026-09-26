@@ -59,6 +59,10 @@ type Client struct {
 
 	// Settlements groups settlement-related API operations.
 	Settlements *SettlementService
+
+	// DedicatedVirtualAccounts groups dedicated virtual account API
+	// operations.
+	DedicatedVirtualAccounts *DedicatedVirtualAccountService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -98,6 +102,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Products = &ProductService{client: c}
 	c.Subaccounts = &SubaccountService{client: c}
 	c.Settlements = &SettlementService{client: c}
+	c.DedicatedVirtualAccounts = &DedicatedVirtualAccountService{client: c}
 
 	return c, nil
 }
