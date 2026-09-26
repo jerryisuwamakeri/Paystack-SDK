@@ -30,4 +30,7 @@ var (
 	ErrMissingBusinessName     = errors.New("paystack: business name is required")
 	ErrMissingSettlementBank   = errors.New("paystack: settlement bank is required")
 	ErrMissingSubaccountCode   = errors.New("paystack: subaccount code is required")
+	ErrMissingSplitType        = errors.New("paystack: split type is required")
+	ErrMissingSplitSubaccounts = errors.New("paystack: at least one subaccount is required")
+	ErrMissingSplitCode        = errors.New("paystack: split code is required")
 )
