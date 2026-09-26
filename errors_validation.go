@@ -19,4 +19,6 @@ var (
 	ErrMissingReason        = errors.New("paystack: reason is required")
 	ErrMissingTransferCode  = errors.New("paystack: transfer code is required")
 	ErrMissingOTP           = errors.New("paystack: otp is required")
+	ErrMissingInterval      = errors.New("paystack: interval is required")
+	ErrMissingPlanCode      = errors.New("paystack: plan code is required")
 )
