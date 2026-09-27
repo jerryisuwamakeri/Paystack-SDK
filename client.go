@@ -90,6 +90,9 @@ type Client struct {
 
 	// Balance groups balance and balance-ledger API operations.
 	Balance *BalanceService
+
+	// Integration groups integration-level configuration API operations.
+	Integration *IntegrationService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -139,6 +142,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Invoices = &InvoiceService{client: c}
 	c.Terminals = &TerminalService{client: c}
 	c.Balance = &BalanceService{client: c}
+	c.Integration = &IntegrationService{client: c}
 
 	return c, nil
 }
