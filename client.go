@@ -87,6 +87,9 @@ type Client struct {
 
 	// Terminals groups Terminal (POS) API operations.
 	Terminals *TerminalService
+
+	// Balance groups balance and balance-ledger API operations.
+	Balance *BalanceService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -135,6 +138,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Charge = &ChargeService{client: c}
 	c.Invoices = &InvoiceService{client: c}
 	c.Terminals = &TerminalService{client: c}
+	c.Balance = &BalanceService{client: c}
 
 	return c, nil
 }
