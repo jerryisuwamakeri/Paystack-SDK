@@ -84,6 +84,74 @@ func (s *CustomerService) Update(ctx context.Context, customerCode string, req U
 	return &out, resp, nil
 }
 
+// SetRiskAction marks a customer as "allow" or "deny", overriding
+// Paystack's default risk assessment for their future transactions.
+func (s *CustomerService) SetRiskAction(ctx context.Context, customerCode, riskAction string, opts ...RequestOption) (*Customer, *Response, error) {
+	if customerCode == "" {
+		return nil, nil, ErrMissingReference
+	}
+	if riskAction == "" {
+		return nil, nil, ErrMissingRiskAction
+	}
+
+	req := struct {
+		Customer   string `json:"customer"`
+		RiskAction string `json:"risk_action"`
+	}{Customer: customerCode, RiskAction: riskAction}
+
+	var out Customer
+	resp, err := s.client.do(ctx, "POST", "/customer/set_risk_action", req, &out, opts...)
+	if err != nil {
+		return nil, resp, err
+	}
+	return &out, resp, nil
+}
+
+// DeactivateAuthorization deactivates a saved card or bank authorization so
+// it can no longer be charged.
+func (s *CustomerService) DeactivateAuthorization(ctx context.Context, authorizationCode string, opts ...RequestOption) (*Response, error) {
+	if authorizationCode == "" {
+		return nil, ErrMissingAuthorizationCode
+	}
+
+	req := struct {
+		AuthorizationCode string `json:"authorization_code"`
+	}{AuthorizationCode: authorizationCode}
+
+	return s.client.do(ctx, "POST", "/customer/deactivate_authorization", req, nil, opts...)
+}
+
+// ValidateCustomerRequest is the payload for CustomerService.Validate.
+type ValidateCustomerRequest struct {
+	Country       string `json:"country"`
+	Type          string `json:"type"`
+	Value         string `json:"value"`
+	FirstName     string `json:"first_name,omitempty"`
+	LastName      string `json:"last_name,omitempty"`
+	BVN           string `json:"bvn,omitempty"`
+	BankCode      string `json:"bank_code,omitempty"`
+	AccountNumber string `json:"account_number,omitempty"`
+}
+
+// Validate submits identity information for a customer, required for some
+// regulated payment methods before they can transact.
+func (s *CustomerService) Validate(ctx context.Context, customerCode string, req ValidateCustomerRequest, opts ...RequestOption) (*Response, error) {
+	if customerCode == "" {
+		return nil, ErrMissingReference
+	}
+	if req.Country == "" {
+		return nil, ErrMissingCountry
+	}
+	if req.Type == "" {
+		return nil, ErrMissingIdentificationType
+	}
+	if req.Value == "" {
+		return nil, ErrMissingIdentificationValue
+	}
+
+	return s.client.do(ctx, "POST", "/customer/"+url.PathEscape(customerCode)+"/identification", req, nil, opts...)
+}
+
 // ListCustomersParams filters CustomerService.List and
 // CustomerService.ListAll.
 type ListCustomersParams struct {
