@@ -75,6 +75,9 @@ type Client struct {
 
 	// Disputes groups dispute (chargeback) API operations.
 	Disputes *DisputeService
+
+	// ApplePayDomains groups Apple Pay domain registration API operations.
+	ApplePayDomains *ApplePayDomainService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -119,6 +122,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.PaymentPages = &PaymentPageService{client: c}
 	c.BulkCharges = &BulkChargeService{client: c}
 	c.Disputes = &DisputeService{client: c}
+	c.ApplePayDomains = &ApplePayDomainService{client: c}
 
 	return c, nil
 }
