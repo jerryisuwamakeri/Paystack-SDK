@@ -45,4 +45,8 @@ var (
 	ErrMissingPIN              = errors.New("paystack: pin is required")
 	ErrMissingPhone            = errors.New("paystack: phone is required")
 	ErrMissingBirthday         = errors.New("paystack: birthday is required")
+	ErrMissingTerminalID       = errors.New("paystack: terminal id is required")
+	ErrMissingEventID          = errors.New("paystack: event id is required")
+	ErrMissingEventType        = errors.New("paystack: event type is required")
+	ErrMissingEventAction      = errors.New("paystack: event action is required")
 )
