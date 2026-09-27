@@ -11,7 +11,8 @@ v1.0.0 ships.
 ### Added
 
 - Core client with functional options: `WithBaseURL`, `WithTimeout`,
-  `WithHTTPClient`, `WithRetryPolicy`, `WithObserver`.
+  `WithHTTPClient`, `WithRetryPolicy`, `WithObserver`,
+  `WithUserAgentSuffix`.
 - Structured `APIError` with sentinel error classification
   (`ErrUnauthorized`, `ErrRateLimited`, `ErrNotFound`, `ErrTimeout`).
 - Automatic retries with exponential backoff and jitter for transient
@@ -28,11 +29,18 @@ v1.0.0 ships.
 - `paystacktest` subpackage: webhook signing, canned event payloads
   (`ChargeSuccess`, `TransferSuccess`, `TransferFailed`,
   `RefundProcessed`), and a mock HTTP server for integration tests.
-- Resource coverage: Transactions, Customers, Transfer Recipients,
-  Transfers, Plans, Subscriptions, Refunds, Miscellaneous (banks and
-  countries), Verification (account and BVN resolution), Products,
-  Subaccounts, Settlements, Dedicated Virtual Accounts, Split Payments.
+- Resource coverage: Transactions, Customers (including risk action,
+  authorization deactivation, and identity validation), Transfer
+  Recipients, Transfers (including bulk transfers and OTP control), Plans,
+  Subscriptions (including card update links), Refunds, Miscellaneous
+  (banks and countries), Verification (account, BVN, and card BIN
+  resolution), Products, Subaccounts, Settlements, Dedicated Virtual
+  Accounts (including split configuration), Split Payments, Payment
+  Pages, Bulk Charges, Disputes, Apple Pay Domains, Charge (direct charge
+  with PIN/OTP/phone/birthday submission), Invoices, Terminals (POS),
+  Balance, and Integration settings.
 - Secret redaction for headers in logs and observability output; the
   `Client` type never leaks its secret key through `fmt` formatting.
 - CI workflows for build/vet/test (with the race detector),
   vulnerability scanning, and secret detection.
+- Runnable examples under `examples/` for common integration flows.
