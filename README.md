@@ -59,6 +59,7 @@ client, err := paystack.NewClient(
 	}),
 	paystack.WithObserver(myObserver), // OpenTelemetry, Prometheus, Datadog, logging, ...
 	paystack.WithHTTPClient(myHTTPClient), // custom transport, proxy, connection pooling
+	paystack.WithUserAgentSuffix("my-app/1.4.0"), // attribute traffic during support/incident investigation
 )
 ```
 
@@ -129,6 +130,36 @@ import "github.com/jerryisuwamakeri/Paystack-SDK/paystacktest"
 payload := paystacktest.ChargeSuccess(paystacktest.WithReference("ref_123"))
 signature := paystacktest.Sign(payload, secretKey)
 ```
+
+## Resource coverage
+
+| Resource                    | Client field               |
+| ---------------------------- | --------------------------- |
+| Transactions                  | `client.Transactions`       |
+| Customers                     | `client.Customers`          |
+| Transfer Recipients           | `client.TransferRecipients` |
+| Transfers                     | `client.Transfers`          |
+| Plans                         | `client.Plans`               |
+| Subscriptions                 | `client.Subscriptions`      |
+| Refunds                       | `client.Refunds`            |
+| Miscellaneous (banks, countries) | `client.Miscellaneous`   |
+| Verification (account, BVN, card BIN) | `client.Verification` |
+| Products                      | `client.Products`           |
+| Subaccounts                   | `client.Subaccounts`        |
+| Settlements                   | `client.Settlements`        |
+| Dedicated Virtual Accounts     | `client.DedicatedVirtualAccounts` |
+| Split Payments                | `client.SplitPayments`      |
+| Payment Pages                 | `client.PaymentPages`       |
+| Bulk Charges                  | `client.BulkCharges`        |
+| Disputes                      | `client.Disputes`           |
+| Apple Pay Domains             | `client.ApplePayDomains`    |
+| Charge (direct charge)        | `client.Charge`             |
+| Invoices (payment requests)   | `client.Invoices`           |
+| Terminals (POS)               | `client.Terminals`          |
+| Balance                       | `client.Balance`            |
+| Integration settings          | `client.Integration`        |
+
+Runnable examples for common flows live in [`examples/`](examples/).
 
 ## Error handling
 
