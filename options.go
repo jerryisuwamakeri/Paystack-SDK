@@ -62,3 +62,12 @@ func WithObserver(observer TransportObserver) Option {
 		}
 	}
 }
+
+// WithUserAgentSuffix appends an application-identifying suffix to the
+// User-Agent header sent on every request, useful for attributing traffic
+// to a specific application during support and incident investigation.
+func WithUserAgentSuffix(suffix string) Option {
+	return func(c *Client) {
+		c.userAgentSuffix = suffix
+	}
+}

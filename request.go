@@ -36,7 +36,7 @@ func (c *Client) newRequest(ctx context.Context, method, path string, body any, 
 	}
 
 	req.Header.Set(headerAuthorization, "Bearer "+c.secretKey)
-	req.Header.Set(headerUserAgent, userAgent)
+	req.Header.Set(headerUserAgent, c.userAgent())
 	if body != nil {
 		req.Header.Set(headerContentType, "application/json")
 	}

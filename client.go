@@ -16,11 +16,12 @@ const (
 // multiple goroutines: callers may share a single Client across an entire
 // application.
 type Client struct {
-	secretKey   string
-	baseURL     string
-	httpClient  *http.Client
-	retryPolicy RetryPolicy
-	observer    TransportObserver
+	secretKey       string
+	baseURL         string
+	httpClient      *http.Client
+	retryPolicy     RetryPolicy
+	observer        TransportObserver
+	userAgentSuffix string
 
 	// Transactions groups transaction-related API operations.
 	Transactions *TransactionService
@@ -145,6 +146,15 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Integration = &IntegrationService{client: c}
 
 	return c, nil
+}
+
+// userAgent returns the User-Agent header value for this client, including
+// any application-specific suffix set via WithUserAgentSuffix.
+func (c *Client) userAgent() string {
+	if c.userAgentSuffix == "" {
+		return defaultUserAgent
+	}
+	return defaultUserAgent + " " + c.userAgentSuffix
 }
 
 // String implements fmt.Stringer so that fmt verbs such as %v and %+v
