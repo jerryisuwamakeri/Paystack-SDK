@@ -94,6 +94,45 @@ func (s *TransferService) Finalize(ctx context.Context, req FinalizeTransferRequ
 	return &out, resp, nil
 }
 
+// ResendOTPRequest is the payload for TransferService.ResendOTP.
+type ResendOTPRequest struct {
+	TransferCode string `json:"transfer_code"`
+	Reason       string `json:"reason"`
+}
+
+// ResendOTP requests a new OTP for a transfer awaiting finalization.
+func (s *TransferService) ResendOTP(ctx context.Context, req ResendOTPRequest, opts ...RequestOption) (*Response, error) {
+	if req.TransferCode == "" {
+		return nil, ErrMissingTransferCode
+	}
+	if req.Reason == "" {
+		return nil, ErrMissingReason
+	}
+	return s.client.do(ctx, "POST", "/transfer/resend_otp", req, nil, opts...)
+}
+
+// DisableOTP requests that transfer OTP confirmation be disabled for the
+// integration. Paystack sends an OTP to confirm the change; complete it
+// with FinalizeDisableOTP.
+func (s *TransferService) DisableOTP(ctx context.Context, opts ...RequestOption) (*Response, error) {
+	return s.client.do(ctx, "POST", "/transfer/disable_otp", nil, nil, opts...)
+}
+
+// FinalizeDisableOTPRequest is the payload for
+// TransferService.FinalizeDisableOTP.
+type FinalizeDisableOTPRequest struct {
+	OTP string `json:"otp"`
+}
+
+// FinalizeDisableOTP confirms disabling transfer OTP confirmation using the
+// OTP sent by DisableOTP.
+func (s *TransferService) FinalizeDisableOTP(ctx context.Context, req FinalizeDisableOTPRequest, opts ...RequestOption) (*Response, error) {
+	if req.OTP == "" {
+		return nil, ErrMissingOTP
+	}
+	return s.client.do(ctx, "POST", "/transfer/disable_otp_finalize", req, nil, opts...)
+}
+
 // Fetch retrieves a transfer by its numeric ID or transfer code.
 func (s *TransferService) Fetch(ctx context.Context, idOrCode string, opts ...RequestOption) (*Transfer, *Response, error) {
 	if idOrCode == "" {
