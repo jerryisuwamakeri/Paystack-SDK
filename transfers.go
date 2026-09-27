@@ -71,6 +71,37 @@ func (s *TransferService) Create(ctx context.Context, req CreateTransferRequest,
 	return &out, resp, nil
 }
 
+// BulkTransferItem is a single transfer within a bulk transfer request.
+type BulkTransferItem struct {
+	Amount    int64  `json:"amount"`
+	Recipient string `json:"recipient"`
+	Reference string `json:"reference,omitempty"`
+	Reason    string `json:"reason,omitempty"`
+}
+
+// CreateBulk initiates multiple transfers in a single request. source
+// defaults to "balance" when empty.
+func (s *TransferService) CreateBulk(ctx context.Context, source string, transfers []BulkTransferItem, opts ...RequestOption) ([]Transfer, *Response, error) {
+	if len(transfers) == 0 {
+		return nil, nil, ErrMissingBulkTransfers
+	}
+	if source == "" {
+		source = "balance"
+	}
+
+	req := struct {
+		Source    string             `json:"source"`
+		Transfers []BulkTransferItem `json:"transfers"`
+	}{Source: source, Transfers: transfers}
+
+	var out []Transfer
+	resp, err := s.client.do(ctx, "POST", "/transfer/bulk", req, &out, opts...)
+	if err != nil {
+		return nil, resp, err
+	}
+	return out, resp, nil
+}
+
 // FinalizeTransferRequest is the payload for TransferService.Finalize.
 type FinalizeTransferRequest struct {
 	TransferCode string `json:"transfer_code"`
