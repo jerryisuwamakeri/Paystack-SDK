@@ -41,4 +41,5 @@ var (
 	ErrMissingCustomerName     = errors.New("paystack: customer name is required")
 	ErrMissingCustomerPhone    = errors.New("paystack: customer phone is required")
 	ErrMissingServiceDetails   = errors.New("paystack: service details are required")
+	ErrMissingDomainName       = errors.New("paystack: domain name is required")
 )
