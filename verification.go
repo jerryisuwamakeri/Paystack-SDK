@@ -63,3 +63,30 @@ func (s *VerificationService) ResolveBVN(ctx context.Context, bvn string, opts .
 	}
 	return &out, resp, nil
 }
+
+// CardBIN is returned by VerificationService.ResolveCardBIN.
+type CardBIN struct {
+	Bin         string `json:"bin"`
+	Brand       string `json:"brand"`
+	SubBrand    string `json:"sub_brand,omitempty"`
+	CountryCode string `json:"country_code"`
+	CountryName string `json:"country_name"`
+	CardType    string `json:"card_type"`
+	Bank        string `json:"bank"`
+}
+
+// ResolveCardBIN looks up the issuing bank and card type for a card's bank
+// identification number, useful for routing or risk decisions before a
+// charge is attempted.
+func (s *VerificationService) ResolveCardBIN(ctx context.Context, bin string, opts ...RequestOption) (*CardBIN, *Response, error) {
+	if bin == "" {
+		return nil, nil, ErrMissingBIN
+	}
+
+	var out CardBIN
+	resp, err := s.client.do(ctx, "GET", "/decision/bin/"+url.PathEscape(bin), nil, &out, opts...)
+	if err != nil {
+		return nil, resp, err
+	}
+	return &out, resp, nil
+}
