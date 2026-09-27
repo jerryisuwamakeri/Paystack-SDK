@@ -69,6 +69,9 @@ type Client struct {
 
 	// PaymentPages groups hosted payment page API operations.
 	PaymentPages *PaymentPageService
+
+	// BulkCharges groups bulk-charge API operations.
+	BulkCharges *BulkChargeService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -111,6 +114,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.DedicatedVirtualAccounts = &DedicatedVirtualAccountService{client: c}
 	c.SplitPayments = &SplitPaymentService{client: c}
 	c.PaymentPages = &PaymentPageService{client: c}
+	c.BulkCharges = &BulkChargeService{client: c}
 
 	return c, nil
 }
