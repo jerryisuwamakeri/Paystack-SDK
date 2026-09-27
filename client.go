@@ -72,6 +72,9 @@ type Client struct {
 
 	// BulkCharges groups bulk-charge API operations.
 	BulkCharges *BulkChargeService
+
+	// Disputes groups dispute (chargeback) API operations.
+	Disputes *DisputeService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -115,6 +118,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.SplitPayments = &SplitPaymentService{client: c}
 	c.PaymentPages = &PaymentPageService{client: c}
 	c.BulkCharges = &BulkChargeService{client: c}
+	c.Disputes = &DisputeService{client: c}
 
 	return c, nil
 }
