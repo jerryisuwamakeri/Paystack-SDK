@@ -17,9 +17,8 @@ go test ./...
 
 - `go build ./...` and `go vet ./...` must pass.
 - `gofmt -l .` must print nothing (run `gofmt -w .` to fix formatting).
-- `go test ./... -race` must pass.
-- New behavior needs test coverage; bug fixes should include a test that
-  fails before the fix and passes after it.
+- Verify new behavior manually against the Paystack sandbox before opening
+  the pull request, and describe how you verified it.
 
 ## Design principles
 
