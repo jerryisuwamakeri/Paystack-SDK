@@ -64,8 +64,9 @@ func (b ExponentialBackoff) Delay(attempt int) time.Duration {
 	}
 
 	// Full jitter: a random delay between half of the computed backoff and
-	// the full computed backoff.
-	jittered := raw/2 + rand.Float64()*(raw/2)
+	// the full computed backoff. This is retry timing, not a security
+	// boundary, so a non-cryptographic PRNG is intentional here.
+	jittered := raw/2 + rand.Float64()*(raw/2) //nolint:gosec // G404: timing jitter, not security-sensitive
 	return time.Duration(jittered)
 }
 
