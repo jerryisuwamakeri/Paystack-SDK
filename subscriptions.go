@@ -100,6 +100,36 @@ func (s *SubscriptionService) Disable(ctx context.Context, req ManageSubscriptio
 	return s.client.do(ctx, "POST", "/subscription/disable", req, nil, opts...)
 }
 
+// UpdateSubscriptionLink is returned by
+// SubscriptionService.GenerateUpdateLink.
+type UpdateSubscriptionLink struct {
+	Link string `json:"link"`
+}
+
+// GenerateUpdateLink creates a link the customer can use to update the
+// card on file for a subscription.
+func (s *SubscriptionService) GenerateUpdateLink(ctx context.Context, code string, opts ...RequestOption) (*UpdateSubscriptionLink, *Response, error) {
+	if code == "" {
+		return nil, nil, ErrMissingSubscriptionCode
+	}
+
+	var out UpdateSubscriptionLink
+	resp, err := s.client.do(ctx, "GET", "/subscription/"+url.PathEscape(code)+"/manage/link", nil, &out, opts...)
+	if err != nil {
+		return nil, resp, err
+	}
+	return &out, resp, nil
+}
+
+// SendUpdateLink emails the customer a link to update the card on file for
+// a subscription.
+func (s *SubscriptionService) SendUpdateLink(ctx context.Context, code string, opts ...RequestOption) (*Response, error) {
+	if code == "" {
+		return nil, ErrMissingSubscriptionCode
+	}
+	return s.client.do(ctx, "POST", "/subscription/"+url.PathEscape(code)+"/manage/email", nil, nil, opts...)
+}
+
 // ListSubscriptionsParams filters SubscriptionService.List and
 // SubscriptionService.ListAll.
 type ListSubscriptionsParams struct {
