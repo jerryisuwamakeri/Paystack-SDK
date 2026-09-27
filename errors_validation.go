@@ -49,4 +49,6 @@ var (
 	ErrMissingEventID          = errors.New("paystack: event id is required")
 	ErrMissingEventType        = errors.New("paystack: event type is required")
 	ErrMissingEventAction      = errors.New("paystack: event action is required")
+	ErrMissingBulkTransfers    = errors.New("paystack: at least one transfer is required")
+	ErrMissingBIN              = errors.New("paystack: card bin is required")
 )
