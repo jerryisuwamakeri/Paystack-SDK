@@ -147,3 +147,41 @@ func (s *DedicatedVirtualAccountService) ListProviders(ctx context.Context, opts
 	}
 	return out, resp, nil
 }
+
+// AssignSplitConfigRequest is the payload for
+// DedicatedVirtualAccountService.AssignSplitConfig.
+type AssignSplitConfigRequest struct {
+	Customer      string `json:"customer"`
+	Subaccount    string `json:"subaccount,omitempty"`
+	SplitCode     string `json:"split_code,omitempty"`
+	PreferredBank string `json:"preferred_bank,omitempty"`
+}
+
+// AssignSplitConfig routes a share of every payment into a dedicated
+// virtual account to a subaccount or transaction split.
+func (s *DedicatedVirtualAccountService) AssignSplitConfig(ctx context.Context, req AssignSplitConfigRequest, opts ...RequestOption) (*DedicatedVirtualAccount, *Response, error) {
+	if req.Customer == "" {
+		return nil, nil, ErrMissingCustomer
+	}
+
+	var out DedicatedVirtualAccount
+	resp, err := s.client.do(ctx, "POST", "/dedicated_account/split", req, &out, opts...)
+	if err != nil {
+		return nil, resp, err
+	}
+	return &out, resp, nil
+}
+
+// RemoveSplitConfig removes a previously assigned split configuration from
+// a dedicated virtual account.
+func (s *DedicatedVirtualAccountService) RemoveSplitConfig(ctx context.Context, accountNumber string, opts ...RequestOption) (*Response, error) {
+	if accountNumber == "" {
+		return nil, ErrMissingAccountNumber
+	}
+
+	req := struct {
+		AccountNumber string `json:"account_number"`
+	}{AccountNumber: accountNumber}
+
+	return s.client.do(ctx, "DELETE", "/dedicated_account/split", req, nil, opts...)
+}
