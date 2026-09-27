@@ -84,6 +84,9 @@ type Client struct {
 
 	// Invoices groups payment-request (invoice) API operations.
 	Invoices *InvoiceService
+
+	// Terminals groups Terminal (POS) API operations.
+	Terminals *TerminalService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -131,6 +134,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.ApplePayDomains = &ApplePayDomainService{client: c}
 	c.Charge = &ChargeService{client: c}
 	c.Invoices = &InvoiceService{client: c}
+	c.Terminals = &TerminalService{client: c}
 
 	return c, nil
 }
