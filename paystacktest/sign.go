@@ -4,7 +4,7 @@
 // be tested without contacting the real Paystack API.
 package paystacktest
 
-import "github.com/jerryisuwamakeri/Paystack-SDK"
+import paystack "github.com/jerryisuwamakeri/Paystack-SDK"
 
 // Sign computes the x-paystack-signature value Paystack would send for a
 // webhook payload signed with secret, for use in tests:
