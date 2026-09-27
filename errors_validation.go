@@ -33,4 +33,6 @@ var (
 	ErrMissingSplitType        = errors.New("paystack: split type is required")
 	ErrMissingSplitSubaccounts = errors.New("paystack: at least one subaccount is required")
 	ErrMissingSplitCode        = errors.New("paystack: split code is required")
+	ErrMissingBulkCharges      = errors.New("paystack: at least one charge is required")
+	ErrMissingBatchCode        = errors.New("paystack: batch code is required")
 )
