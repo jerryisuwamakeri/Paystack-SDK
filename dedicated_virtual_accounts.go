@@ -128,3 +128,22 @@ func (s *DedicatedVirtualAccountService) ListAll(ctx context.Context, params Lis
 		return s.List(ctx, p, opts...)
 	})
 }
+
+// DedicatedVirtualAccountProvider is a bank capable of issuing dedicated
+// virtual accounts.
+type DedicatedVirtualAccountProvider struct {
+	ProviderSlug string `json:"provider_slug"`
+	BankID       int64  `json:"bank_id"`
+	BankName     string `json:"bank_name"`
+}
+
+// ListProviders retrieves the banks available for issuing dedicated
+// virtual accounts.
+func (s *DedicatedVirtualAccountService) ListProviders(ctx context.Context, opts ...RequestOption) ([]DedicatedVirtualAccountProvider, *Response, error) {
+	var out []DedicatedVirtualAccountProvider
+	resp, err := s.client.do(ctx, "GET", "/dedicated_account/available_providers", nil, &out, opts...)
+	if err != nil {
+		return nil, resp, err
+	}
+	return out, resp, nil
+}
