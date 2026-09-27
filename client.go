@@ -66,6 +66,9 @@ type Client struct {
 
 	// SplitPayments groups transaction-split API operations.
 	SplitPayments *SplitPaymentService
+
+	// PaymentPages groups hosted payment page API operations.
+	PaymentPages *PaymentPageService
 }
 
 // NewClient constructs a Client using the given secret key and options.
@@ -107,6 +110,7 @@ func NewClient(secretKey string, opts ...Option) (*Client, error) {
 	c.Settlements = &SettlementService{client: c}
 	c.DedicatedVirtualAccounts = &DedicatedVirtualAccountService{client: c}
 	c.SplitPayments = &SplitPaymentService{client: c}
+	c.PaymentPages = &PaymentPageService{client: c}
 
 	return c, nil
 }
