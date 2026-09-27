@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	paystack "github.com/jerryisuwamakeri/Paystack-SDK"
 )
@@ -42,6 +43,16 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
+	// An explicit http.Server with timeouts avoids the Slowloris-style
+	// resource exhaustion that a bare http.ListenAndServe is vulnerable to.
+	server := &http.Server{
+		Addr:              ":8080",
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       10 * time.Second,
+		WriteTimeout:      10 * time.Second,
+		IdleTimeout:       60 * time.Second,
+	}
+
 	log.Println("listening on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(server.ListenAndServe())
 }
